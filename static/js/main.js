@@ -127,7 +127,10 @@ function initAudioPlayer() {
     }
 
     // Keep the pill UI in sync with the real playback state
-    audio.addEventListener('play', () => controlPill.classList.add('playing'));
+    audio.addEventListener('play', () => {
+        controlPill.classList.add('playing');
+        clearFallback();
+    });
     audio.addEventListener('pause', () => controlPill.classList.remove('playing'));
 
     // Toggle button: pause <-> resume
@@ -139,36 +142,50 @@ function initAudioPlayer() {
         }
     });
 
-    // Fallback: if the browser blocks autoplay, start on the very first interaction
-    const interactionEvents = ['pointerdown', 'click', 'touchstart', 'keydown', 'scroll'];
-    function startOnFirstInteraction() {
-        playAudio();
+    // Start on the very first interaction anywhere on the page.
+    // Register these listeners immediately (not only after the autoplay
+    // promise rejects) so no gesture is ever missed while it resolves.
+    const interactionEvents = ['pointerdown', 'click', 'touchstart', 'touchend', 'keydown', 'scroll'];
+    let fallbackActive = true;
+
+    function clearFallback() {
+        if (!fallbackActive) return;
+        fallbackActive = false;
         interactionEvents.forEach(evt => {
             document.removeEventListener(evt, startOnFirstInteraction);
             window.removeEventListener(evt, startOnFirstInteraction);
         });
     }
-    function registerAutoplayFallback() {
-        interactionEvents.forEach(evt => {
-            document.addEventListener(evt, startOnFirstInteraction, { once: true, passive: true });
-            window.addEventListener(evt, startOnFirstInteraction, { once: true, passive: true });
-        });
-    }
 
-    // Try to play the song as soon as the visitor enters the page
-    function attemptAutoplay() {
-        let result;
-        try {
-            result = audio.play();
-        } catch (err) {
-            registerAutoplayFallback();
+    function startOnFirstInteraction(event) {
+        if (!fallbackActive) return;
+        // The toggle button handles its own logic; ignore gestures on it.
+        if (toggleBtn.contains(event.target)) {
+            clearFallback();
             return;
         }
-        if (result && typeof result.catch === 'function') {
-            result.catch(() => registerAutoplayFallback());
+        if (audio.paused) {
+            playAudio();
         }
+        clearFallback();
     }
-    attemptAutoplay();
+
+    interactionEvents.forEach(evt => {
+        document.addEventListener(evt, startOnFirstInteraction, { passive: true });
+        window.addEventListener(evt, startOnFirstInteraction, { passive: true });
+    });
+
+    // Try to play the song as soon as the visitor enters the page.
+    // If the browser blocks autoplay, the interaction listeners above
+    // will start it on the visitor's first gesture instead.
+    try {
+        const attempt = audio.play();
+        if (attempt && typeof attempt.catch === 'function') {
+            attempt.catch(() => { /* will start on first interaction */ });
+        }
+    } catch (err) {
+        /* will start on first interaction */
+    }
 }
 
 /* ==========================================================================
