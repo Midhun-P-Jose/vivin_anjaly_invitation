@@ -48,10 +48,9 @@
         <audio id="weddingAudio" loop preload="none">
             {% if details.background_music %}
             <source src="{{ details.background_music.url }}" type="audio/mpeg">
-            {% else %}
-            <!-- High-quality romantic ambient instrumental track -->
-            <source src="https://actions.google.com/sounds/v1/ambiences/outdoor_garden_evening.ogg" type="audio/ogg">
             {% endif %}
+            <!-- Bundled song served from /static/ (works on serverless hosts like Vercel, where /media/ uploads are not served) -->
+            <source src="{% static 'audio/wedding-song.mp3' %}" type="audio/mpeg">
         </audio>
     </div>
 
