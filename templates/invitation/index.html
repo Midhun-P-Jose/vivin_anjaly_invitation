@@ -1,0 +1,569 @@
+{% extends 'invitation/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<!-- HERO SECTION -->
+<section id="hero" class="hero-section" style="{% if details.hero_image %}background-image: linear-gradient(rgba(18, 16, 15, 0.55), rgba(18, 16, 15, 0.7)), url('{{ details.hero_image.url }}');{% endif %}">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+        <div class="hero-crest">
+            <span class="crest-line"></span>
+            <span class="crest-icon"><i class="fa-solid fa-infinity"></i></span>
+            <span class="crest-line"></span>
+        </div>
+        <p class="hero-subhead animate-fade-in">{{ details.hero_title|default:"WE ARE GETTING MARRIED" }}</p>
+        
+        <h1 class="hero-names animate-fade-in-up">
+            <span class="name-groom">{{ details.groom_name|default:"Vivin" }}</span>
+            <span class="name-amp">&amp;</span>
+            <span class="name-bride">{{ details.bride_name|default:"Anjaly" }}</span>
+        </h1>
+
+        <div class="hero-date-box animate-fade-in-up delay-1">
+            <span class="h-date-icon"><i class="fa-regular fa-calendar-check"></i></span>
+            <span class="h-date-text">
+                {% if details.wedding_date %}
+                    {{ details.wedding_date|date:"l, F j, Y" }}
+                {% else %}
+                    Save The Date &bull; Coming Soon
+                {% endif %}
+            </span>
+            <span class="h-date-dot">&bull;</span>
+            <span class="h-venue-text"><i class="fa-solid fa-location-dot"></i> {{ details.wedding_location|default:"Kochi, Kerala" }}</span>
+        </div>
+
+        <p class="hero-tagline animate-fade-in-up delay-2">
+            "{{ details.hero_tagline|default:'Two souls, one heart, an eternal promise.' }}"
+        </p>
+
+        <!-- LIVE COUNTDOWN TIMER -->
+        <div class="countdown-wrapper animate-fade-in-up delay-3" id="countdownContainer">
+            <div class="countdown-card">
+                <span class="count-number" id="countDays">00</span>
+                <span class="count-label">Days</span>
+            </div>
+            <div class="countdown-sep">:</div>
+            <div class="countdown-card">
+                <span class="count-number" id="countHours">00</span>
+                <span class="count-label">Hours</span>
+            </div>
+            <div class="countdown-sep">:</div>
+            <div class="countdown-card">
+                <span class="count-number" id="countMinutes">00</span>
+                <span class="count-label">Minutes</span>
+            </div>
+            <div class="countdown-sep">:</div>
+            <div class="countdown-card">
+                <span class="count-number" id="countSeconds">00</span>
+                <span class="count-label">Seconds</span>
+            </div>
+        </div>
+
+        <!-- HERO BUTTONS -->
+        <div class="hero-actions animate-fade-in-up delay-4">
+            <a href="#events" class="btn btn-gold"><i class="fa-regular fa-calendar-days"></i> View Events</a>
+            <a href="#wishes" class="btn btn-outline-light"><i class="fa-solid fa-heart"></i> Send Wishes</a>
+        </div>
+
+        <div class="scroll-indicator">
+            <a href="#couple" aria-label="Scroll down">
+                <span class="mouse-icon"><span class="mouse-wheel"></span></span>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- INVITATION MESSAGE SECTION -->
+<section class="invitation-quote-section">
+    <div class="section-container text-center">
+        <div class="ornament-divider">
+            <span class="ornament-leaf"><i class="fa-brands fa-pagelines"></i></span>
+        </div>
+        <h3 class="quote-subhead">Together with their parents</h3>
+        <p class="quote-body">
+            "{{ details.invitation_quote|default:'As love brings us together, we invite you to share this sacred beginning of our new chapter. Your presence, love, and prayers will make our special day complete.' }}"
+        </p>
+        <div class="hashtag-pill">{{ details.hashtag|default:"#VivinWedsAnjaly" }}</div>
+    </div>
+</section>
+
+<!-- THE COUPLE SECTION -->
+<section id="couple" class="couple-section">
+    <div class="section-container">
+        <div class="section-header text-center">
+            <span class="section-badge">The Happy Couple</span>
+            <h2 class="section-title">Groom &amp; Bride</h2>
+            <div class="title-accent-line"></div>
+        </div>
+
+        <div class="couple-grid">
+            <!-- GROOM -->
+            <div class="couple-card groom-card">
+                <div class="couple-img-wrapper">
+                    {% if details.groom_photo %}
+                        <img src="{{ details.groom_photo.url }}" alt="{{ details.groom_name }}" class="couple-img">
+                    {% else %}
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=800&q=80" alt="Groom Placeholder" class="couple-img">
+                    {% endif %}
+                    <div class="couple-badge">The Groom</div>
+                </div>
+                <div class="couple-info">
+                    <h3 class="couple-name">{{ details.groom_name|default:"Vivin" }}</h3>
+                    <p class="couple-parents">{{ details.groom_parents|default:"Son of Mr. &amp; Mrs. Jose" }}</p>
+                    <p class="couple-bio">
+                        {{ details.groom_bio|default:"A gentle heart, an adventurous spirit, and ready to embark on a lifetime of love and laughter with Anjaly." }}
+                    </p>
+                </div>
+            </div>
+
+            <!-- CENTER EMBLEM -->
+            <div class="couple-divider">
+                <div class="rings-emblem">
+                    <i class="fa-solid fa-ring ring-1"></i>
+                    <i class="fa-solid fa-ring ring-2"></i>
+                </div>
+                <span class="forever-text">Forever &amp; Always</span>
+            </div>
+
+            <!-- BRIDE -->
+            <div class="couple-card bride-card">
+                <div class="couple-img-wrapper">
+                    {% if details.bride_photo %}
+                        <img src="{{ details.bride_photo.url }}" alt="{{ details.bride_name }}" class="couple-img">
+                    {% else %}
+                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=80" alt="Bride Placeholder" class="couple-img">
+                    {% endif %}
+                    <div class="couple-badge">The Bride</div>
+                </div>
+                <div class="couple-info">
+                    <h3 class="couple-name">{{ details.bride_name|default:"Anjaly" }}</h3>
+                    <p class="couple-parents">{{ details.bride_parents|default:"Daughter of Mr. &amp; Mrs. Thomas" }}</p>
+                    <p class="couple-bio">
+                        {{ details.bride_bio|default:"Graceful, radiant, and kind-hearted, with a smile that brightens every room and completes Vivin's world." }}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- OUR LOVE STORY SECTION -->
+<section id="story" class="story-section">
+    <div class="section-container">
+        <div class="section-header text-center">
+            <span class="section-badge">How It All Started</span>
+            <h2 class="section-title">Our Love Story</h2>
+            <p class="section-subtitle">Every love story is beautiful, but ours is our favorite.</p>
+            <div class="title-accent-line"></div>
+        </div>
+
+        <div class="story-timeline">
+            {% if stories %}
+                {% for story in stories %}
+                    <div class="timeline-item {% cycle 'timeline-left' 'timeline-right' %}">
+                        <div class="timeline-dot">
+                            <i class="fa-solid fa-heart"></i>
+                        </div>
+                        <div class="timeline-card">
+                            <span class="timeline-date">{{ story.milestone_date }}</span>
+                            <h3 class="timeline-title">{{ story.title }}</h3>
+                            <p class="timeline-desc">{{ story.description }}</p>
+                            {% if story.photo %}
+                                <div class="timeline-photo">
+                                    <img src="{{ story.photo.url }}" alt="{{ story.title }}" loading="lazy">
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <!-- Default Timeline Demo Milestones -->
+                <div class="timeline-item timeline-left">
+                    <div class="timeline-dot"><i class="fa-solid fa-heart"></i></div>
+                    <div class="timeline-card">
+                        <span class="timeline-date">October 2021</span>
+                        <h3 class="timeline-title">When We First Met</h3>
+                        <p class="timeline-desc">A chance meeting over coffee that turned into hours of endless conversations, shared laughter, and an unspoken spark.</p>
+                    </div>
+                </div>
+                <div class="timeline-item timeline-right">
+                    <div class="timeline-dot"><i class="fa-solid fa-heart"></i></div>
+                    <div class="timeline-card">
+                        <span class="timeline-date">November 2022</span>
+                        <h3 class="timeline-title">The First Adventure</h3>
+                        <p class="timeline-desc">From weekend road trips to exploring scenic hills together, we realized we made the perfect travel partners in life.</p>
+                    </div>
+                </div>
+                <div class="timeline-item timeline-left">
+                    <div class="timeline-dot"><i class="fa-solid fa-heart"></i></div>
+                    <div class="timeline-card">
+                        <span class="timeline-date">December 2023</span>
+                        <h3 class="timeline-title">She Said Yes! 💍</h3>
+                        <p class="timeline-desc">Under a canopy of stars by the backwaters, with hearts racing and joyful tears, the forever promise was made.</p>
+                    </div>
+                </div>
+                <div class="timeline-item timeline-right">
+                    <div class="timeline-dot"><i class="fa-solid fa-heart"></i></div>
+                    <div class="timeline-card">
+                        <span class="timeline-date">The Wedding Day</span>
+                        <h3 class="timeline-title">Beginning Our Forever</h3>
+                        <p class="timeline-desc">Surrounded by beloved family and cherished friends, we step hand-in-hand into holy matrimony.</p>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+<!-- WEDDING EVENTS ITINERARY -->
+<section id="events" class="events-section">
+    <div class="section-container">
+        <div class="section-header text-center">
+            <span class="section-badge">When &amp; Where</span>
+            <h2 class="section-title">Wedding Itinerary</h2>
+            <p class="section-subtitle">We would be honored by your gracious presence across all celebrations.</p>
+            <div class="title-accent-line"></div>
+        </div>
+
+        <div class="events-grid">
+            {% if events %}
+                {% for event in events %}
+                    <div class="event-card">
+                        {% if event.cover_image %}
+                            <div class="event-cover">
+                                <img src="{{ event.cover_image.url }}" alt="{{ event.title }}">
+                            </div>
+                        {% endif %}
+                        <div class="event-body">
+                            <div class="event-icon-circle">
+                                {% if event.icon == 'church' %}
+                                    <i class="fa-solid fa-church"></i>
+                                {% elif event.icon == 'rings' %}
+                                    <i class="fa-solid fa-ring"></i>
+                                {% elif event.icon == 'glass-cheers' %}
+                                    <i class="fa-solid fa-champagne-glasses"></i>
+                                {% elif event.icon == 'music' %}
+                                    <i class="fa-solid fa-music"></i>
+                                {% elif event.icon == 'sparkles' %}
+                                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                                {% else %}
+                                    <i class="fa-solid fa-heart"></i>
+                                {% endif %}
+                            </div>
+
+                            <span class="event-date-pill">
+                                <i class="fa-regular fa-calendar"></i> {{ event.event_date|date:"F j, Y" }}
+                            </span>
+
+                            <h3 class="event-title">{{ event.title }}</h3>
+                            {% if event.subtitle %}
+                                <p class="event-subtitle">{{ event.subtitle }}</p>
+                            {% endif %}
+
+                            <div class="event-meta">
+                                <div class="meta-row">
+                                    <i class="fa-regular fa-clock"></i>
+                                    <span>{{ event.start_time|time:"g:i A" }}{% if event.end_time %} - {{ event.end_time|time:"g:i A" }}{% endif %}</span>
+                                </div>
+                                <div class="meta-row">
+                                    <i class="fa-solid fa-location-dot"></i>
+                                    <span><strong>{{ event.venue_name }}</strong><br><small>{{ event.venue_address }}</small></span>
+                                </div>
+                                {% if event.dress_code %}
+                                    <div class="meta-row dress-code-row">
+                                        <i class="fa-solid fa-shirt"></i>
+                                        <span>Attire: <em>{{ event.dress_code }}</em></span>
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            {% if event.description %}
+                                <p class="event-desc">{{ event.description }}</p>
+                            {% endif %}
+
+                            <div class="event-actions">
+                                {% if event.google_maps_url %}
+                                    <a href="{{ event.google_maps_url }}" target="_blank" class="event-btn btn-maps">
+                                        <i class="fa-solid fa-map-location-dot"></i> Get Directions
+                                    </a>
+                                {% else %}
+                                    <a href="https://www.google.com/maps/search/?api=1&query={{ event.venue_name|urlencode }}+{{ event.venue_address|urlencode }}" target="_blank" class="event-btn btn-maps">
+                                        <i class="fa-solid fa-map-location-dot"></i> View on Map
+                                    </a>
+                                {% endif %}
+                                <a href="{% url 'invitation:download_event_calendar' event.id %}" class="event-btn btn-cal" title="Add this event to calendar">
+                                    <i class="fa-regular fa-calendar-plus"></i> Add Event
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <!-- Default Placeholder Event Cards -->
+                <div class="event-card">
+                    <div class="event-body">
+                        <div class="event-icon-circle"><i class="fa-solid fa-church"></i></div>
+                        <span class="event-date-pill"><i class="fa-regular fa-calendar"></i> Wedding Ceremony</span>
+                        <h3 class="event-title">Holy Matrimony</h3>
+                        <p class="event-subtitle">The Sacred Vows &amp; Nuptial Blessing</p>
+                        <div class="event-meta">
+                            <div class="meta-row"><i class="fa-regular fa-clock"></i> <span>10:30 AM IST</span></div>
+                            <div class="meta-row"><i class="fa-solid fa-location-dot"></i> <span><strong>St. Mary's Cathedral Basilica</strong><br><small>Marine Drive, Ernakulam, Kochi</small></span></div>
+                            <div class="meta-row dress-code-row"><i class="fa-solid fa-shirt"></i> <span>Attire: Traditional Festive / Formal</span></div>
+                        </div>
+                        <p class="event-desc">Join us as we exchange sacred marriage vows before God and family.</p>
+                        <div class="event-actions">
+                            <a href="https://maps.google.com" target="_blank" class="event-btn btn-maps"><i class="fa-solid fa-map-location-dot"></i> View on Map</a>
+                            <a href="{% url 'invitation:download_all_calendar' %}" class="event-btn btn-cal"><i class="fa-regular fa-calendar-plus"></i> Add Event</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="event-card">
+                    <div class="event-body">
+                        <div class="event-icon-circle"><i class="fa-solid fa-champagne-glasses"></i></div>
+                        <span class="event-date-pill"><i class="fa-regular fa-calendar"></i> Evening Celebration</span>
+                        <h3 class="event-title">Grand Wedding Reception</h3>
+                        <p class="event-subtitle">Dinner, Music, Toasts &amp; Festivities</p>
+                        <div class="event-meta">
+                            <div class="meta-row"><i class="fa-regular fa-clock"></i> <span>6:00 PM Onwards</span></div>
+                            <div class="meta-row"><i class="fa-solid fa-location-dot"></i> <span><strong>Grand Hyatt Kochi Bolgatty</strong><br><small>Mulavukad, Kochi, Kerala</small></span></div>
+                            <div class="meta-row dress-code-row"><i class="fa-solid fa-shirt"></i> <span>Attire: Elegant Evening Wear / Suit &amp; Saree</span></div>
+                        </div>
+                        <p class="event-desc">An evening of dining, live acoustic music, celebration, and joyous memories with family.</p>
+                        <div class="event-actions">
+                            <a href="https://maps.google.com" target="_blank" class="event-btn btn-maps"><i class="fa-solid fa-map-location-dot"></i> View on Map</a>
+                            <a href="{% url 'invitation:download_all_calendar' %}" class="event-btn btn-cal"><i class="fa-regular fa-calendar-plus"></i> Add Event</a>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+<!-- PHOTO & VIDEO GALLERY SECTION -->
+<section id="gallery" class="gallery-section">
+    <div class="section-container">
+        <div class="section-header text-center">
+            <span class="section-badge">Captured Moments</span>
+            <h2 class="section-title">Photo Gallery</h2>
+            <p class="section-subtitle">A glimpse into our sweetest memories and adventures.</p>
+            <div class="title-accent-line"></div>
+        </div>
+
+        <!-- Gallery Grid -->
+        <div class="gallery-grid" id="galleryGrid">
+            {% if gallery_items %}
+                {% for item in gallery_items %}
+                    <div class="gallery-card"
+                         data-type="{{ item.media_type }}"
+                         {% if item.media_type == 'photo' and item.image %}
+                            data-img-src="{{ item.image.url }}"
+                         {% elif item.media_type == 'video_file' and item.video_file %}
+                            data-video-src="{{ item.video_file.url }}"
+                         {% elif item.video_embed_url %}
+                            data-video-embed="{{ item.video_embed_url }}"
+                         {% endif %}
+                         data-title="{{ item.title|default:'Vivin & Anjaly' }}"
+                         data-caption="{{ item.caption }}">
+                        
+                        <div class="gallery-thumbnail-wrap">
+                            {% if item.media_type == 'photo' and item.image %}
+                                <img src="{{ item.image.url }}" alt="{{ item.title|default:'Wedding Photo' }}" loading="lazy" class="gallery-thumb">
+                                <div class="gallery-hover-overlay">
+                                    <span class="hover-icon"><i class="fa-solid fa-magnifying-glass-plus"></i></span>
+                                </div>
+                            {% elif item.media_type == 'video_file' or item.media_type == 'video_embed' %}
+                                <div class="video-thumb-placeholder">
+                                    {% if item.image %}
+                                        <img src="{{ item.image.url }}" alt="{{ item.title }}" loading="lazy" class="gallery-thumb">
+                                    {% else %}
+                                        <div class="video-gradient-bg">
+                                            <i class="fa-solid fa-film bg-film-icon"></i>
+                                        </div>
+                                    {% endif %}
+                                    <div class="video-play-badge">
+                                        <i class="fa-solid fa-play"></i>
+                                    </div>
+                                    <div class="gallery-hover-overlay">
+                                        <span class="hover-icon"><i class="fa-solid fa-circle-play"></i></span>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+
+
+<!-- WISHES & BLESSINGS (GUESTBOOK) SECTION -->
+<section id="wishes" class="wishes-section">
+    <div class="section-container">
+        <div class="section-header text-center">
+            <span class="section-badge">Love Notes &amp; Blessings</span>
+            <h2 class="section-title">Wishes Wall</h2>
+            <p class="section-subtitle">Leave a heartfelt note, blessing, or sweet advice for Vivin &amp; Anjaly.</p>
+            <div class="title-accent-line"></div>
+        </div>
+
+        <div class="wishes-wrapper">
+            <!-- Wish Form -->
+            <div class="wish-form-card">
+                <h3 class="wish-card-title"><i class="fa-solid fa-feather-pointed"></i> Send Your Blessings</h3>
+                <form id="wishForm" class="wish-form">
+                    <div class="form-group">
+                        <label for="wishName">Your Name *</label>
+                        <input type="text" id="wishName" name="name" class="form-control" placeholder="e.g. Uncle George, Sarah" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="wishRelation">Relationship / City (Optional)</label>
+                        <input type="text" id="wishRelation" name="relation_or_city" class="form-control" placeholder="e.g. College Friend, Bangalore">
+                    </div>
+                    <div class="form-group">
+                        <label for="wishMessage">Your Blessings / Message *</label>
+                        <textarea id="wishMessage" name="message" rows="4" class="form-control" placeholder="May your love grow stronger with every passing day..." required></textarea>
+                    </div>
+                    <div id="wishAlert" class="form-alert hidden"></div>
+                    <button type="submit" class="btn btn-gold btn-block" id="wishSubmitBtn">
+                        <span class="btn-text"><i class="fa-solid fa-heart"></i> Post My Wish</span>
+                        <span class="btn-spinner hidden"><i class="fa-solid fa-circle-notch fa-spin"></i> Posting...</span>
+                    </button>
+                </form>
+            </div>
+
+            <!-- Wishes Grid -->
+            <div class="wishes-board" id="wishesBoard">
+                {% if wishes %}
+                    {% for wish in wishes %}
+                        <div class="wish-note">
+                            <div class="wish-quote-icon"><i class="fa-solid fa-quote-left"></i></div>
+                            <p class="wish-text">{{ wish.message }}</p>
+                            <div class="wish-footer">
+                                <span class="wish-author">{{ wish.name }}</span>
+                                {% if wish.relation_or_city %}
+                                    <span class="wish-meta">&bull; {{ wish.relation_or_city }}</span>
+                                {% endif %}
+                                <span class="wish-time">{{ wish.created_at|date:"M j, Y" }}</span>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="wish-empty-state" style="text-align:center; padding: 40px 20px; opacity: 0.6;">
+                        <i class="fa-solid fa-heart" style="font-size: 2rem; color: var(--gold); margin-bottom: 12px; display:block;"></i>
+                        <p>Be the first to leave a blessing for Vivin &amp; Anjaly! 💛</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- A LETTER FROM THE COUPLE -->
+<section id="letter" class="couple-letter-section">
+    <div class="section-container">
+        <div class="section-header text-center">
+            <span class="section-badge">A Personal Note</span>
+            <h2 class="section-title">A Message From Us</h2>
+            <p class="section-subtitle">A few words from our hearts to the people we love.</p>
+            <div class="title-accent-line"></div>
+        </div>
+
+        <button class="letter-envelope" id="openCoupleLetter" type="button"
+            aria-haspopup="dialog" aria-controls="coupleLetterDialog">
+            <span class="envelope-flap" aria-hidden="true"></span>
+            <span class="envelope-seal" aria-hidden="true"><i class="fa-solid fa-heart"></i></span>
+            <span class="letter-envelope-text">
+                <small>A PERSONAL LETTER FOR</small>
+                <strong>Our Dear Family &amp; Friends</strong>
+                <span>With love, Vivin &amp; Anjaly</span>
+                <span class="envelope-open-prompt">Open your letter <i class="fa-solid fa-envelope-open-text" aria-hidden="true"></i></span>
+            </span>
+        </button>
+
+        <dialog class="couple-letter-dialog" id="coupleLetterDialog" aria-labelledby="coupleLetterTitle">
+            <article class="letter-paper">
+                <button class="letter-close" id="closeCoupleLetter" type="button" aria-label="Close letter">&times;</button>
+                <span class="section-badge">With love, Vivin &amp; Anjaly</span>
+                <h3 id="coupleLetterTitle">To Our Dearest Family &amp; Friends</h3>
+                <div class="letter-copy">
+                <p>Dearest family and friends,</p>
+                <p>Our journey began with a hello on a matrimony site. That first hello grew into many conversations, and before long we knew we wanted to build a life together.</p>
+                <p>As we prepare to celebrate our wedding on January 4, 2027, we feel so grateful for the love and support you have given us. Though life has taken us to New Zealand, you are always close to our hearts.</p>
+                <p>Thank you for being part of our story. We look forward to celebrating this special day with you and making memories together.</p>
+                <p class="letter-signoff">With all our love,<br><span>Vivin &amp; Anjaly</span></p>
+                </div>
+            </article>
+        </dialog>
+    </div>
+</section>
+
+<!-- VENUE & ACCOMMODATION / TRAVEL GUIDE -->
+<section id="venue" class="venue-guide-section">
+    <div class="section-container">
+        <div class="section-header text-center">
+            <span class="section-badge">Venue &amp; Travel</span>
+            <h2 class="section-title">Getting There</h2>
+            <p class="section-subtitle">We look forward to welcoming you to our special day.</p>
+            <div class="title-accent-line"></div>
+        </div>
+
+        <div class="travel-cards-grid">
+            <div class="travel-card">
+                <div class="travel-icon"><i class="fa-solid fa-church"></i></div>
+                <h3>Venue</h3>
+                <p><strong>St. Joseph Church, Amalapura</strong></p>
+                <p>Ayampuzha, Ernakulam, Kerala — PIN 683581</p>
+                <a href="https://www.google.com/maps/search/?api=1&query=St+Joseph+Church+Amalapura+Ayampuzha+Kerala+683581" target="_blank" class="event-btn btn-maps" style="display:inline-flex; margin-top:10px;">
+                    <i class="fa-solid fa-map-location-dot"></i> View on Map
+                </a>
+            </div>
+
+            <div class="travel-card">
+                <div class="travel-icon"><i class="fa-solid fa-plane-departure"></i></div>
+                <h3>Nearest Airport</h3>
+                <p><strong>Cochin International Airport (COK)</strong></p>
+                <p>Located approximately 35 km from Ayampuzha. Taxis and cabs are readily available.</p>
+                <a href="https://www.google.com/maps/dir/?api=1&origin=Cochin+International+Airport+COK+Nedumbassery+Kerala&destination=St+Joseph+Church+Amalapura+Ayampuzha+Kerala+683581" target="_blank" class="event-btn btn-maps" style="display:inline-flex; margin-top:10px;">
+                    <i class="fa-solid fa-route"></i> Get Directions
+                </a>
+            </div>
+
+            <div class="travel-card">
+                <div class="travel-icon"><i class="fa-solid fa-train"></i></div>
+                <h3>Nearest Railway Station</h3>
+                <p><strong>Angamaly Railway Station (AFK)</strong></p>
+                <p>Approximately 14 km from the venue. Auto-rickshaws and taxis available.</p>
+                <a href="https://www.google.com/maps/dir/?api=1&origin=Angamaly+Railway+Station+Kerala&destination=St+Joseph+Church+Amalapura+Ayampuzha+Kerala+683581" target="_blank" class="event-btn btn-maps" style="display:inline-flex; margin-top:10px;">
+                    <i class="fa-solid fa-route"></i> Get Directions
+                </a>
+            </div>
+        </div>
+
+        <!-- Embedded Google Map -->
+        <div style="margin-top: 30px; border-radius: 12px; overflow: hidden; box-shadow: var(--shadow-soft);">
+            <iframe
+                src="https://maps.google.com/maps?q=St+Joseph+Church+Amalapura+Ayampuzha+Kerala+683581&output=embed"
+                width="100%" height="380" style="border:0;" allowfullscreen="" loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+        </div>
+
+        <!-- Contact Support Card -->
+        <div class="contact-support-card">
+            <h4><i class="fa-solid fa-headset"></i> Have Questions or Need Assistance?</h4>
+            <p>Feel free to reach out to our wedding coordinators:</p>
+            <div class="contact-details-row">
+                <span><i class="fa-solid fa-phone"></i> {{ details.contact_phone|default:"+91 7907311787" }}</span>
+                <span><i class="fa-solid fa-hashtag"></i> {{ details.hashtag|default:"#VivinWedsAnjaly" }}</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
