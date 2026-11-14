@@ -45,12 +45,12 @@
                 <span class="bar"></span>
             </span>
         </button>
-        <audio id="weddingAudio" loop preload="none">
+        <audio id="weddingAudio" loop preload="auto" playsinline>
+            <!-- Bundled song served from /static/ (works on serverless hosts like Vercel, where /media/ uploads are not served) -->
+            <source src="{% static 'audio/wedding-song.mp3' %}" type="audio/mpeg">
             {% if details.background_music %}
             <source src="{{ details.background_music.url }}" type="audio/mpeg">
             {% endif %}
-            <!-- Bundled song served from /static/ (works on serverless hosts like Vercel, where /media/ uploads are not served) -->
-            <source src="{% static 'audio/wedding-song.mp3' %}" type="audio/mpeg">
         </audio>
     </div>
 
@@ -157,7 +157,7 @@
             wishUrl: "{% url 'invitation:submit_wish' %}"
         };
     </script>
-    <script src="{% static 'js/main.js' %}?v=letter-envelope-9"></script>
+    <script src="{% static 'js/main.js' %}?v=letter-envelope-10"></script>
 </body>
 
 </html>

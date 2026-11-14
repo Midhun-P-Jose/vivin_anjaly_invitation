@@ -111,15 +111,33 @@ function initAudioPlayer() {
     const controlPill = document.getElementById('audio-control');
     if (!audio || !toggleBtn) return;
 
-    function playAudio() {
+    let retryPending = false;
+
+    function playAudio(onBlocked) {
+        let attempt;
         try {
-            const attempt = audio.play();
-            if (attempt && typeof attempt.catch === 'function') {
-                attempt.catch(() => {});
-            }
+            attempt = audio.play();
         } catch (err) {
-            /* playback was blocked */
+            if (onBlocked) onBlocked();
+            return;
         }
+        if (attempt && typeof attempt.catch === 'function') {
+            attempt.catch(() => { if (onBlocked) onBlocked(); });
+        }
+    }
+
+    // Some devices leave the media element in a failed or unloaded state.
+    // Reloading the source and retrying once clears that and lets it play.
+    function playWithRetry() {
+        playAudio(() => {
+            if (retryPending) return;
+            retryPending = true;
+            try { audio.load(); } catch (err) { /* ignore */ }
+            setTimeout(() => {
+                retryPending = false;
+                playAudio();
+            }, 150);
+        });
     }
 
     function pauseAudio() {
@@ -136,7 +154,7 @@ function initAudioPlayer() {
     // Toggle button: pause <-> resume
     toggleBtn.addEventListener('click', () => {
         if (audio.paused) {
-            playAudio();
+            playWithRetry();
         } else {
             pauseAudio();
         }
@@ -165,7 +183,7 @@ function initAudioPlayer() {
             return;
         }
         if (audio.paused) {
-            playAudio();
+            playWithRetry();
         }
         clearFallback();
     }
