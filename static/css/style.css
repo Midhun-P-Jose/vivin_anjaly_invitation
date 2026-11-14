@@ -632,6 +632,10 @@ img {
     border-radius: 50%;
 }
 
+.bride-card .couple-img {
+    object-position: center 35%;
+}
+
 .couple-badge {
     position: absolute;
     bottom: -5px;
