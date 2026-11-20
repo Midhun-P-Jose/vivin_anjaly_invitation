@@ -47,7 +47,7 @@
         </button>
         <audio id="weddingAudio" loop preload="auto" playsinline>
             <!-- Bundled song served from /static/ (works on serverless hosts like Vercel, where /media/ uploads are not served) -->
-            <source src="{% static 'audio/wedding-song.mp3' %}" type="audio/mpeg">
+            <source src="{% static 'audio/wedding-song-2.mp3' %}" type="audio/mpeg">
             {% if details.background_music %}
             <source src="{{ details.background_music.url }}" type="audio/mpeg">
             {% endif %}
